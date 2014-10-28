@@ -1,9 +1,10 @@
-/*
+/*!
 * Slides, A Slideshow Plugin for jQuery
 * Intructions: http://slidesjs.com
 * By: Nathan Searles, http://nathansearles.com
-* Version: 1.1.9
-* Updated: September 5th, 2011
+* Version: 1.1.10
+* Updated: October 28th, 2014
+* Updated by: Eugen Geisler. eugen@livinglogic.de
 *
 * Licensed under the Apache License, Version 2.0 (the "License");
 * you may not use this file except in compliance with the License.
@@ -407,21 +408,19 @@
 				});
 			}
 			
-			// generate next/prev buttons
-			if (option.generateNextPrev) {
-				$('.' + option.container, elem).after('<a href="#" class="'+ option.prev +'">Prev</a>');
-				$('.' + option.prev, elem).after('<a href="#" class="'+ option.next +'">Next</a>');
+			// wrap pagination and navigation in a container
+			if (option.paginationContainer) {
+				$('.' + option.container, elem).before('<div class="' + option.paginationContainerClass + '"></div>')
 			}
-			
-			// next button
-			$('.' + option.next ,elem).click(function(e){
-				e.preventDefault();
-				if (option.play) {
-					pause();
+
+			// generate prev button
+			if (option.generateNextPrev) {
+				if (option.paginationContainer) {
+					$('.' + option.paginationContainerClass, elem).append('<a href="#" class="'+ option.prev +'">Prev</a>');
+				} else {
+					$('.' + option.container, elem).after('<a href="#" class="'+ option.prev +'">Prev</a>');
 				}
-				animate('next', effect);
-			});
-			
+			}
 			// previous button
 			$('.' + option.prev, elem).click(function(e){
 				e.preventDefault();
@@ -434,10 +433,14 @@
 			// generate pagination
 			if (option.generatePagination) {
 				// create unordered list
-				if (option.prependPagination) {
-					elem.prepend('<ul class='+ option.paginationClass +'></ul>');
+				if (option.paginationContainer) {
+					$('.' + option.paginationContainerClass, elem).append('<ul class='+ option.paginationClass +'></ul>');
 				} else {
-					elem.append('<ul class='+ option.paginationClass +'></ul>');
+					if (option.prependPagination) {
+						elem.prepend('<ul class='+ option.paginationClass +'></ul>');
+					} else {
+						elem.append('<ul class='+ option.paginationClass +'></ul>');
+					}
 				}
 				// for each slide create a list item and link
 				control.children().each(function(){
@@ -452,6 +455,24 @@
 				});
 			}
 			
+			// generate next button
+			if (option.generateNextPrev) {
+				if (option.paginationContainer) {
+					$('.' + option.paginationContainerClass, elem).append('<a href="#" class="'+ option.next +'">Next</a>');
+				} else {
+					$('.' + option.prev, elem).after('<a href="#" class="'+ option.next +'">Next</a>');
+				}
+			}
+
+			// next button
+			$('.' + option.next ,elem).click(function(e){
+				e.preventDefault();
+				if (option.play) {
+					pause();
+				}
+				animate('next', effect);
+			});
+
 			// add current class to start slide pagination
 			$('.' + option.paginationClass + ' li:eq('+ start +')', elem).addClass(option.currentClass);
 			
@@ -507,6 +528,8 @@
 		pagination: true, // boolean, If you're not using pagination you can set to false, but don't have to
 		generatePagination: true, // boolean, Auto generate pagination
 		prependPagination: false, // boolean, prepend pagination
+		paginationContainer: false, // boolean, If you want to wrap all controls in a container, set to true
+		paginationContainerClass: false, // string, Specify class of the container
 		paginationClass: 'pagination', // string, Class name for pagination
 		currentClass: 'current', // string, Class name for current class
 		fadeSpeed: 350, // number, Set the speed of the fading animation in milliseconds
