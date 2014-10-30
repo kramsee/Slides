@@ -1,3 +1,4 @@
+
 /*!
 * Slides, A Slideshow Plugin for jQuery
 * Intructions: http://slidesjs.com
@@ -235,8 +236,35 @@
 					if (option.pagination) {
 						// remove current class from all
 						$('.'+ option.paginationClass +' li.' + option.currentClass, elem).removeClass(option.currentClass);
+
+						if (option.shortenPagination) {
+							// Show active page in pagination and the two surrounding it
+
+							// Check if next page is the first page
+							if ((next - 1) >= 0) {
+								if ((next ) === $('.' + option.paginationClass + ' li').length - 1 ) {
+									$('.' + option.paginationClass + ' li:lt('+ (next - 2) +')', elem).addClass("hide").removeClass("hide-border");
+									$('.'+ option.paginationClass +' li:eq(' + (next - 2) + ')' , elem).removeClass('hide').addClass("hide-border");
+								} else {
+									$('.' + option.paginationClass + ' li:lt('+ (next - 1) +')', elem).addClass("hide").removeClass("hide-border");
+									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide').addClass("hide-border");
+								}
+							}
+
+
+							// Check if next page is the last page
+							if (next < $('.' + option.paginationClass + ' li').length - 1) {
+								if ( next === 0) {
+									$('.' + option.paginationClass + ' li:gt('+ (next + 2) +')', elem).addClass("hide");
+								} else {
+									$('.' + option.paginationClass + ' li:gt('+ (next) +')', elem).addClass("hide");
+								}
+								$('.'+ option.paginationClass +' li:eq(' + (next + 1) + ')' , elem).removeClass('hide');
+							}
+						}
+
 						// add current class to next
-						$('.' + option.paginationClass + ' li:eq('+ next +')', elem).addClass(option.currentClass);
+						$('.' + option.paginationClass + ' li:eq('+ next +')', elem).addClass(option.currentClass).removeClass("hide-border");
 					}
 				}
 			} // end animate function
@@ -475,7 +503,26 @@
 
 			// add current class to start slide pagination
 			$('.' + option.paginationClass + ' li:eq('+ start +')', elem).addClass(option.currentClass);
-			
+
+			if (option.shortenPagination) {
+				// hide not visible elements
+				if (start > 0) {
+					if ( start === $('.' + option.paginationClass + ' li').length ) {
+						$('.' + option.paginationClass + ' li:lt('+ (start - 2) +')', elem).addClass("hide");
+					} else {
+						$('.' + option.paginationClass + ' li:lt('+ (start - 1) +')', elem).addClass("hide");
+					}
+				}
+			}
+
+			if ( start < $('.' + option.paginationClass + ' li').length ) {
+				if ( start === 0 ) {
+					$('.' + option.paginationClass + ' li:gt('+ (start + 2) +')', elem).addClass("hide");
+				} else {
+					$('.' + option.paginationClass + ' li:gt('+ (start + 1) +')', elem).addClass("hide");
+				}
+			}
+
 			// click handling 
 			$('.' + option.paginationClass + ' li a', elem ).click(function(){
 				// pause slideshow
@@ -530,6 +577,7 @@
 		prependPagination: false, // boolean, prepend pagination
 		paginationContainer: false, // boolean, If you want to wrap all controls in a container, set to true
 		paginationContainerClass: false, // string, Specify class of the container
+		shortenPagination: false, // boolean, show only active 3 pages of pagination
 		paginationClass: 'pagination', // string, Class name for pagination
 		currentClass: 'current', // string, Class name for current class
 		fadeSpeed: 350, // number, Set the speed of the fading animation in milliseconds
