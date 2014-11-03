@@ -1,4 +1,3 @@
-
 /*!
 * Slides, A Slideshow Plugin for jQuery
 * Intructions: http://slidesjs.com
@@ -239,12 +238,11 @@
 
 						if (option.shortenPagination) {
 							// Show active page in pagination and the two surrounding it
-
 							// Check if next page is the first page
 							if ((next - 1) >= 0) {
 								if ((next ) === $('.' + option.paginationClass + ' li').length - 1 ) {
-									$('.' + option.paginationClass + ' li:lt('+ (next - 2) +')', elem).addClass("hide").removeClass("hide-border");
-									$('.'+ option.paginationClass +' li:eq(' + (next - 2) + ')' , elem).removeClass('hide').addClass("hide-border");
+									$('.' + option.paginationClass + ' li:lt('+ (next - 1) +')', elem).addClass("hide").removeClass("hide-border");
+									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide').addClass("hide-border");
 								} else {
 									$('.' + option.paginationClass + ' li:lt('+ (next - 1) +')', elem).addClass("hide").removeClass("hide-border");
 									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide').addClass("hide-border");
@@ -264,7 +262,7 @@
 						}
 
 						// add current class to next
-						$('.' + option.paginationClass + ' li:eq('+ next +')', elem).addClass(option.currentClass).removeClass("hide-border");
+						$('.' + option.paginationClass + ' li:eq('+ next +')', elem).addClass(option.currentClass).removeClass("hide-border hide");
 					}
 				}
 			} // end animate function
