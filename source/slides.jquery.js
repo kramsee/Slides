@@ -47,7 +47,7 @@
 					option.slidesLoaded();
 				});
 				// Hide the next/previous buttons
-				$('.' + option.next + ', .' + option.prev).fadeOut(0);
+				$('.' + option.next + ', .' + option.prev, this).fadeOut(0);
 				return false;
 			}
 
