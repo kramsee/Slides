@@ -241,8 +241,9 @@
 							// Check if next page is the first page
 							if ((next - 1) >= 0) {
 								if ((next ) === $('.' + option.paginationClass + ' li').length - 1 ) {
-									$('.' + option.paginationClass + ' li:lt('+ (next - 1) +')', elem).addClass("hide").removeClass("hide-border");
-									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide').addClass("hide-border");
+									$('.' + option.paginationClass + ' li:lt('+ (next - 2) +')', elem).addClass("hide").removeClass("hide-border");
+									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide');
+									$('.'+ option.paginationClass +' li:eq(' + (next - 2) + ')' , elem).removeClass('hide').addClass("hide-border");
 								} else {
 									$('.' + option.paginationClass + ' li:lt('+ (next - 1) +')', elem).addClass("hide").removeClass("hide-border");
 									$('.'+ option.paginationClass +' li:eq(' + (next - 1) + ')' , elem).removeClass('hide').addClass("hide-border");
@@ -254,10 +255,12 @@
 							if (next < $('.' + option.paginationClass + ' li').length - 1) {
 								if ( next === 0) {
 									$('.' + option.paginationClass + ' li:gt('+ (next + 2) +')', elem).addClass("hide");
+									$('.'+ option.paginationClass +' li:eq(' + (next + 1) + ')' , elem).removeClass('hide');
+									$('.'+ option.paginationClass +' li:eq(' + (next + 2) + ')' , elem).removeClass('hide');
 								} else {
 									$('.' + option.paginationClass + ' li:gt('+ (next) +')', elem).addClass("hide");
+									$('.'+ option.paginationClass +' li:eq(' + (next + 1) + ')' , elem).removeClass('hide');
 								}
-								$('.'+ option.paginationClass +' li:eq(' + (next + 1) + ')' , elem).removeClass('hide');
 							}
 						}
 
